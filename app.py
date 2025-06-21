@@ -14,6 +14,10 @@ class Task(db.Model):
     deadline = db.Column(db.String(20))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+# 🔧 添加这行代码，确保部署时自动建表
+with app.app_context():
+    db.create_all()
+
 @app.route('/')
 def index():
     tasks = Task.query.all()
@@ -37,5 +41,4 @@ def update_status(id):
     return redirect('/')
 
 if __name__ == '__main__':
-    db.create_all()
     app.run(debug=True)
